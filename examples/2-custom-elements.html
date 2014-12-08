@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Custom Elements</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  </head>
+  <body>
+    <script>
+      var XFoo = document.registerElement('x-foo', {
+        prototype: Object.create(HTMLElement.prototype, {
+          bar: {
+            get: function() { return 5; }
+          },
+          foo: {
+            value: function() {
+              window.alert('foo() called');
+            }
+          },
+          createdCallback: {
+            value: function() {
+              console.log('x-bar created');
+            }
+          },
+          // attachedCallback: {},
+          detachedCallback: {
+            value: function() {
+              console.log('x-bar detachedCallback');
+            }
+          }
+        })
+      });
+      document.body.appendChild(new XFoo());
+    </script>
+  </body>
+</html>

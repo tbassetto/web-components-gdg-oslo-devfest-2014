@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Template + Custom Elements + Shadow DOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  </head>
+  <body>
+    <p><span>Using</span> <code>&lt;user-profile name=""></code>:</p>
+    <template>
+      <style>
+        span {
+          font-weight: bold;
+        }
+      </style>
+      <div class="user" style="background-image: url('http://subtlepatterns.com/patterns/congruent_pentagon.png')">
+        <span class="name"></span>
+        <img class="avatar">
+      </div>
+    </template>
+
+    <script>
+      var UserProfile = document.registerElement('user-profile', {
+        prototype: Object.create(HTMLElement.prototype, {
+          createdCallback: {
+            value: function() {
+              var content = document.querySelector('template').content;
+              // !!!
+              this.createShadowRoot().appendChild(document.importNode(content, true));
+
+              var name = this.getAttribute('name');
+              if (name) {
+                this.attributeChangedCallback('name', null, name);
+              }
+            }
+          },
+          attributeChangedCallback: {
+            value: function (attrName, oldVal, newVal) {
+              // !!!
+              this.shadowRoot.querySelector('.name').textContent = newVal;
+            }
+          }
+        })
+      });
+    </script>
+
+    <user-profile name="Thomas"></user-profile>
+    <user-profile name="Marc"></user-profile>
+  </body>
+</html>

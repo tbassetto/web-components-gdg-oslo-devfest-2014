@@ -1,0 +1,32 @@
+<template id="user-profile">
+  <div class="background" style="background-image: url('http://subtlepatterns.com/patterns/congruent_pentagon.png')">
+    <span class="name">User</span>
+    <img class="avatar">
+  </div>
+</template>
+
+<script>
+  var importedDoc = document.currentScript.ownerDocument;
+
+  var UserProfile = document.registerElement('user-profile', {
+    prototype: Object.create(HTMLElement.prototype, {
+      createdCallback: {
+        value: function() {
+          var shadow = this.createShadowRoot();
+          var content = importedDoc.querySelector('template').content;
+          shadow.appendChild(document.importNode(content, true));
+
+          var name = this.getAttribute('name');
+          if (name) {
+            this.attributeChangedCallback('name', null, name);
+          }
+        }
+      },
+      attributeChangedCallback: {
+        value: function (attrName, oldVal, newVal) {
+          this.shadowRoot.querySelector('.name').textContent = newVal;
+        }
+      }
+    })
+  });
+</script>

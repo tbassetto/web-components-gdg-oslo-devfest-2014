@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  </head>
+  <body>
+    <template>
+      <div class="user" style="background-image: url('http://subtlepatterns.com/patterns/congruent_pentagon.png')">
+        <span class="name">User</span>
+        <img class="avatar">
+      </div>
+      <script>console.log('I am user profile');</script>
+    </template>
+
+    <button onclick="insert()">Insert </button>
+
+    <script>
+      // Grab the content of the template, document fragment
+      var content = document.querySelector('template').content;
+      var counter = 1;
+
+      function insert() {
+        // Look for the name
+        var span = content.querySelector('.name');
+        span.textContent = 'User ' + counter++;
+        // Add my new element (template + data) to my page
+        document.body.appendChild(document.importNode(content, true));
+      }
+    </script>
+  </body>
+</html>
